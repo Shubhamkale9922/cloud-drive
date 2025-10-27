@@ -55,7 +55,7 @@ uploadBtn.onclick = async () => {
   const filePath = `${Date.now()}_${file.name}`;
 
   const { data, error } = await supabase.storage
-    .from("userfiles") // bucket name
+    .from("userfile") // bucket name
     .upload(filePath, file, {
       cacheControl: "3600",
       upsert: false,
@@ -73,7 +73,7 @@ uploadBtn.onclick = async () => {
 // LIST FILES
 // ==========================
 async function listFiles() {
-  const { data, error } = await supabase.storage.from("userfiles").list();
+  const { data, error } = await supabase.storage.from("userfile").list();
 
   fileList.innerHTML = "";
   if (error) {
@@ -88,7 +88,7 @@ async function listFiles() {
 
   for (const file of data) {
     const { data: publicUrl } = supabase.storage
-      .from("userfiles")
+      .from("userfile")
       .getPublicUrl(file.name);
 
     const li = document.createElement("li");
