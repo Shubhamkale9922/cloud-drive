@@ -2,27 +2,54 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Drive Lite App</title>
-  <link rel="stylesheet" href="style.css">
+  <title>☁️ Drive Lite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Supabase JS -->
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h2>☁️ Drive Lite</h2>
+  <div class="app-container">
 
-  <div id="auth">
-    <input type="email" id="email" placeholder="Enter Email">
-    <input type="password" id="password" placeholder="Enter Password">
-    <button id="signup">Sign Up</button>
-    <button id="login">Login</button>
+    <header>
+      <h1>☁️ Drive Lite</h1>
+      <button id="logout" class="btn logout">Logout</button>
+    </header>
+
+    <!-- Auth Section -->
+    <section id="auth" class="card">
+      <h2>Welcome Back 👋</h2>
+      <p>Login or create your cloud drive account</p>
+      <input type="email" id="email" placeholder="Enter your email">
+      <input type="password" id="password" placeholder="Enter your password">
+      <div class="auth-buttons">
+        <button id="signup" class="btn primary">Sign Up</button>
+        <button id="login" class="btn secondary">Login</button>
+      </div>
+    </section>
+
+    <!-- App Section -->
+    <section id="app" class="card hidden">
+      <h2>My Cloud Files</h2>
+      <div class="upload-area">
+        <input type="file" id="fileInput">
+        <button id="uploadBtn" class="btn primary">Upload File</button>
+      </div>
+
+      <ul id="fileList" class="file-list"></ul>
+    </section>
+
   </div>
 
-  <div id="app" style="display:none;">
-    <h3>Welcome!</h3>
-    <input type="file" id="fileInput">
-    <button id="uploadBtn">Upload File</button>
-    <ul id="fileList"></ul>
-    <button id="logout">Logout</button>
-  </div>
+  <footer>
+    <p>Made with ❤️ by <strong>Team SK</strong> | Powered by Supabase</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>

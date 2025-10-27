@@ -13,3 +13,161 @@ ul {
   list-style: none;
   padding: 0;
 }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #c3e0ff, #e5f6ff);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-container {
+  width: 95%;
+  max-width: 500px;
+  text-align: center;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0070f3;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+  font-size: 1.5rem;
+}
+
+.card {
+  background: white;
+  padding: 30px 25px;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-top: -10px;
+}
+
+.card h2 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.card p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="file"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: 0.3s ease;
+}
+
+input:focus {
+  border-color: #0070f3;
+  outline: none;
+  box-shadow: 0 0 6px rgba(0, 112, 243, 0.3);
+}
+
+.auth-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.btn.primary {
+  background: #0070f3;
+  color: white;
+}
+
+.btn.primary:hover {
+  background: #005ad0;
+}
+
+.btn.secondary {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.btn.secondary:hover {
+  background: #ccc;
+}
+
+.btn.logout {
+  background: #ff4d4d;
+  color: white;
+  padding: 8px 14px;
+  font-size: 14px;
+}
+
+.btn.logout:hover {
+  background: #e63939;
+}
+
+.upload-area {
+  margin-bottom: 20px;
+}
+
+.file-list {
+  list-style: none;
+  text-align: left;
+}
+
+.file-list li {
+  background: #f8f8f8;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.3s;
+}
+
+.file-list li:hover {
+  background: #eef6ff;
+}
+
+.file-list a {
+  color: #0070f3;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.hidden {
+  display: none;
+}
+
+footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: #444;
+}
