@@ -1,29 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Drive Lite App</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cloud Drive - Supabase</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="script.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      text-align: center;
+      padding: 40px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 8px;
+      width: 250px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #0070f3;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0059c1;
+    }
+    #fileSection {
+      margin-top: 30px;
+    }
+    #fileList {
+      margin-top: 20px;
+      text-align: left;
+      display: inline-block;
+    }
+  </style>
 </head>
 <body>
-  <h2>☁️ Drive Lite</h2>
 
-  <div id="auth">
-    <input type="email" id="email" placeholder="Enter Email">
-    <input type="password" id="password" placeholder="Enter Password">
-    <button id="signup">Sign Up</button>
-    <button id="login">Login</button>
+  <h2>☁️ Cloud Drive</h2>
+  <p>Sign up or log in to upload and manage your files</p>
+
+  <input id="email" type="email" placeholder="Enter email" /><br />
+  <input id="password" type="password" placeholder="Enter password" /><br />
+
+  <button onclick="signUp()">Sign Up</button>
+  <button onclick="login()">Login</button>
+  <button onclick="logout()">Logout</button>
+
+  <div id="fileSection" style="display:none;">
+    <h3>Upload File</h3>
+    <input type="file" id="fileInput" />
+    <button onclick="uploadFile()">Upload</button>
+
+    <h3>Your Files</h3>
+    <div id="fileList"></div>
   </div>
 
-  <div id="app" style="display:none;">
-    <h3>Welcome!</h3>
-    <input type="file" id="fileInput">
-    <button id="uploadBtn">Upload File</button>
-    <ul id="fileList"></ul>
-    <button id="logout">Logout</button>
-  </div>
-
-  <script src="script.js"></script>
 </body>
 </html>

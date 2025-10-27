@@ -1,66 +1,91 @@
-// Initialize Supabase client
-const SUPABASE_URL = "https://nkmibduzcpzisjlokbjx.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbWliZHV6Y3B6aXNqbG9rYmp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE1NTc0ODAsImV4cCI6MjA3NzEzMzQ4MH0.8wY6w_ED6BInqmBZMX2vjqR31KegAGzpIdUkrCXtfYU";
+// 🔧 Replace with your own Supabase details
+const SUPABASE_URL = "https://nkmibduzcpzisjlokbjx.supabase.co"; // your Supabase URL
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbWliZHV6Y3B6aXNqbG9rYmp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE1NTc0ODAsImV4cCI6MjA3NzEzMzQ4MH0.8wY6w_ED6BInqmBZMX2vjqR31KegAGzpIdUkrCXtfYU"; // your anon/public key
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+// 🧩 Sign Up (Create new account)
+async function signUp() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-const email = document.getElementById('email');
-const password = document.getElementById('password');
-const signupBtn = document.getElementById('signup');
-const loginBtn = document.getElementById('login');
-const uploadBtn = document.getElementById('uploadBtn');
-const fileInput = document.getElementById('fileInput');
-const fileList = document.getElementById('fileList');
-const logoutBtn = document.getElementById('logout');
-
-signupBtn.onclick = async () => {
-  const { error } = await supabase.auth.signUp({
-    email: email.value,
-    password: password.value
-  });
-  alert(error ? error.message : "Sign-up successful! Check your email.");
-};
-
-loginBtn.onclick = async () => {
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: email.value,
-    password: password.value
-  });
-  if (error) return alert(error.message);
-  document.getElementById('auth').style.display = "none";
-  document.getElementById('app').style.display = "block";
-  listFiles();
-};
-
-uploadBtn.onclick = async () => {
-  const file = fileInput.files[0];
-  if (!file) return alert("Select a file first");
-  const { data, error } = await supabase.storage
-    .from('userfiles')
-    .upload(`uploads/${file.name}`, file);
-  if (error) alert(error.message);
-  else {
-    alert("Uploaded!");
-    listFiles();
+  const { data, error } = await supabase.auth.signUp({ email, password });
+  if (error) {
+    alert("❌ " + error.message);
+  } else {
+    alert("✅ Account created! You can now log in.");
   }
-};
-
-async function listFiles() {
-  const { data } = await supabase.storage.from('userfiles').list('uploads');
-  fileList.innerHTML = "";
-  data?.forEach(async (file) => {
-    const { data: publicUrl } = supabase.storage
-      .from('userfiles')
-      .getPublicUrl(`uploads/${file.name}`);
-    const li = document.createElement('li');
-    li.innerHTML = `<a href="${publicUrl.publicUrl}" target="_blank">${file.name}</a>`;
-    fileList.appendChild(li);
-  });
 }
 
-logoutBtn.onclick = async () => {
+// 🧩 Login
+async function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) {
+    alert("❌ " + error.message);
+  } else {
+    alert("✅ Logged in!");
+    document.getElementById("fileSection").style.display = "block";
+    listFiles();
+  }
+}
+
+// 🧩 Logout
+async function logout() {
   await supabase.auth.signOut();
-  document.getElementById('auth').style.display = "block";
-  document.getElementById('app').style.display = "none";
-};
+  alert("🚪 Logged out!");
+  document.getElementById("fileSection").style.display = "none";
+}
+
+// 🧩 Upload File
+async function uploadFile() {
+  const fileInput = document.getElementById("fileInput");
+  const file = fileInput.files[0];
+  if (!file) return alert("Please select a file first!");
+
+  const user = (await supabase.auth.getUser()).data.user;
+  const filePath = `${user.id}/${file.name}`;
+
+  const { data, error } = await supabase.storage.from("files").upload(filePath, file);
+
+  if (error) {
+    alert("❌ " + error.message);
+  } else {
+    alert("✅ File uploaded!");
+    listFiles();
+  }
+}
+
+// 🧩 List Files
+async function listFiles() {
+  const user = (await supabase.auth.getUser()).data.user;
+  const { data, error } = await supabase.storage.from("files").list(user.id + "/");
+
+  const fileList = document.getElementById("fileList");
+  fileList.innerHTML = "";
+
+  if (error) {
+    fileList.innerHTML = "❌ " + error.message;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    fileList.innerHTML = "No files uploaded yet.";
+    return;
+  }
+
+  data.forEach(async (file) => {
+    const { data: urlData } = await supabase.storage
+      .from("files")
+      .getPublicUrl(user.id + "/" + file.name);
+    const a = document.createElement("a");
+    a.href = urlData.publicUrl;
+    a.textContent = file.name;
+    a.target = "_blank";
+    const div = document.createElement("div");
+    div.appendChild(a);
+    fileList.appendChild(div);
+  });
+}
