@@ -4,7 +4,6 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-
 const email = document.getElementById('email');
 const password = document.getElementById('password');
 const signupBtn = document.getElementById('signup');
@@ -14,14 +13,16 @@ const fileInput = document.getElementById('fileInput');
 const fileList = document.getElementById('fileList');
 const logoutBtn = document.getElementById('logout');
 
+// SIGN UP
 signupBtn.onclick = async () => {
   const { error } = await supabase.auth.signUp({
     email: email.value,
     password: password.value
   });
-  alert(error ? error.message : "Sign-up successful! Check your email.");
+  alert(error ? error.message : "✅ Sign-up successful! Check your email for confirmation.");
 };
 
+// LOGIN
 loginBtn.onclick = async () => {
   const { data, error } = await supabase.auth.signInWithPassword({
     email: email.value,
@@ -33,6 +34,7 @@ loginBtn.onclick = async () => {
   listFiles();
 };
 
+// UPLOAD FILE
 uploadBtn.onclick = async () => {
   const file = fileInput.files[0];
   if (!file) return alert("Select a file first");
@@ -41,11 +43,12 @@ uploadBtn.onclick = async () => {
     .upload(`uploads/${file.name}`, file);
   if (error) alert(error.message);
   else {
-    alert("Uploaded!");
+    alert("✅ Uploaded!");
     listFiles();
   }
 };
 
+// LIST FILES
 async function listFiles() {
   const { data } = await supabase.storage.from('userfiles').list('uploads');
   fileList.innerHTML = "";
@@ -59,6 +62,7 @@ async function listFiles() {
   });
 }
 
+// LOGOUT
 logoutBtn.onclick = async () => {
   await supabase.auth.signOut();
   document.getElementById('auth').style.display = "block";
