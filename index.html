@@ -1,54 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>☁️ Drive Lite</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <!-- Supabase JS -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-
-  <!-- Styles -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="app-container">
+  <div class="container">
 
-    <header>
-      <h1>☁️ Drive Lite</h1>
-      <button id="logout" class="btn logout">Logout</button>
-    </header>
+    <!-- 🔐 AUTH SECTION -->
+    <div id="auth-card" class="card">
+      <h2>☁️ Drive Lite By Modern College Students</h2>
+      <p>Sign up or log in to access your personal cloud storage.</p>
 
-    <!-- Auth Section -->
-    <section id="auth" class="card">
-      <h2>Welcome Back 👋</h2>
-      <p>Login or create your cloud drive account</p>
-      <input type="email" id="email" placeholder="Enter your email">
-      <input type="password" id="password" placeholder="Enter your password">
-      <div class="auth-buttons">
+      <input type="email" id="email" placeholder="Email" />
+      <input type="password" id="password" placeholder="Password" />
+
+      <div class="btn-group">
         <button id="signup" class="btn primary">Sign Up</button>
         <button id="login" class="btn secondary">Login</button>
       </div>
-    </section>
+    </div>
 
-    <!-- App Section -->
-    <section id="app" class="card hidden">
-      <h2>My Cloud Files</h2>
+    <!-- 🗂️ APP SECTION -->
+    <div id="app" class="card hidden">
+      <div class="app-header">
+        <h2>My Drive</h2>
+        <button id="logout" class="btn logout">Logout</button>
+      </div>
+
       <div class="upload-area">
-        <input type="file" id="fileInput">
+        <input type="file" id="fileInput" />
         <button id="uploadBtn" class="btn primary">Upload File</button>
       </div>
 
       <ul id="fileList" class="file-list"></ul>
-    </section>
-
+    </div>
   </div>
 
   <footer>
-    <p>Made with ❤️ by <strong>Team SK</strong> | Powered by Supabase</p>
+    <p>Made with <strong>Team CloudSpark</strong> | Powered by Supabase </p>
   </footer>
 
   <script src="script.js"></script>
