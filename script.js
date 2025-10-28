@@ -56,38 +56,61 @@ uploadBtn.onclick = async () => {
 // 📜 LIST FILES
 async function listFiles() {
   const user = (await supabase.auth.getUser()).data.user;
-  const { data, error } = await supabase.storage.from("userfile").list(user.id);
-  if (error) return console.error(error);
+  const { data, error } = await supabase.storage
+    .from("userfile")
+    .list(user.id, { limit: 100, sortBy: { column: "name", order: "asc" } });
+
+  if (error) return console.error("List Error:", error);
 
   fileList.innerHTML = "";
+
+  if (!data || data.length === 0) {
+    fileList.innerHTML = "<p>No files uploaded yet.</p>";
+    return;
+  }
+
   data
-    ?.filter((file) => file.name !== ".emptyFolderPlaceholder")
+    .filter((file) => file.name !== ".emptyFolderPlaceholder")
     .forEach((file) => {
       const { data: publicUrl } = supabase.storage
         .from("userfile")
         .getPublicUrl(`${user.id}/${file.name}`);
 
       const li = document.createElement("li");
+      li.setAttribute("data-filename", file.name);
       li.innerHTML = `
         <span>${file.name}</span>
         <div class="file-actions">
-          <a href="${publicUrl.publicUrl}" target="_blank">View</a>
-          <button onclick="deleteFile('${file.name}')">Delete</button>
+          <a href="${publicUrl.publicUrl}?t=${Date.now()}" target="_blank">View</a>
+          <button onclick="deleteFile('${file.name}', this)">Delete</button>
         </div>
       `;
       fileList.appendChild(li);
     });
 }
 
-// ❌ DELETE FILE
-async function deleteFile(fileName) {
+// ❌ DELETE FILE — instant UI remove
+async function deleteFile(fileName, btn) {
   const user = (await supabase.auth.getUser()).data.user;
+  btn.disabled = true;
+  btn.textContent = "Deleting...";
+
   const { error } = await supabase.storage
     .from("userfile")
     .remove([`${user.id}/${fileName}`]);
-  if (error) return alert("❌ Delete failed: " + error.message);
-  alert("🗑️ File deleted!");
-  listFiles();
+
+  if (error) {
+    alert("❌ Delete failed: " + error.message);
+    btn.disabled = false;
+    btn.textContent = "Delete";
+    return;
+  }
+
+  // ✅ Instantly remove from screen
+  const li = btn.closest("li");
+  if (li) li.remove();
+
+  alert("🗑️ File deleted successfully!");
 }
 
 // 🚪 LOGOUT
