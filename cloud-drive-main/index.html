@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>☁️ Drive Lite</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+
+    <!-- 🔐 AUTH SECTION -->
+    <div id="auth-card" class="card">
+      <h2>☁️ Drive Lite By Modern College Students</h2>
+      <p>Sign up or log in to access your personal cloud storage.</p>
+
+      <input type="email" id="email" placeholder="Email" />
+      <input type="password" id="password" placeholder="Password" />
+
+      <div class="btn-group">
+        <button id="signup" class="btn primary">Sign Up</button>
+        <button id="login" class="btn secondary">Login</button>
+      </div>
+    </div>
+
+    <!-- 🗂️ APP SECTION -->
+    <div id="app" class="card hidden">
+      <div class="app-header">
+        <h2>My Drive</h2>
+        <button id="logout" class="btn logout">Logout</button>
+      </div>
+
+      <div class="upload-area">
+        <input type="file" id="fileInput" />
+        <button id="uploadBtn" class="btn primary">Upload File</button>
+      </div>
+
+      <ul id="fileList" class="file-list"></ul>
+    </div>
+  </div>
+
+  <footer>
+    <p>Made with <strong>Team CloudSpark</strong> |  </p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
